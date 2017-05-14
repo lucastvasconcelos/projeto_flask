@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 class CadastroForm(FlaskForm):
 
     username = StringField("username",validators=[DataRequired()])
-    password = StringField("password",validators=[DataRequired()])
+    password = PasswordField("password",validators=[DataRequired()])
+    password_test = PasswordField("password_test",validators=[DataRequired()])
     name = StringField("name",validators=[DataRequired()])
     email = StringField("email",validators=[DataRequired()])

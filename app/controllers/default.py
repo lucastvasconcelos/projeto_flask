@@ -30,6 +30,21 @@ def login():
 @app.route("/cadastro",methods=['GET','POST'])
 def cadastro():
     form_cadastro = CadastroForm()
+    if form_cadastro.validate_on_submit():
+        test_new_user = User.query.filter_by(username=form_cadastro.username.data).all()
+        test_password = form_cadastro.password.data == form_cadastro.password_test.data
+        print(test_password)
+        if test_new_user == False and test_password == False:
+                new_user = User(form_cadastro.username.data,form_cadastro.password.data,form_cadastro.name.data,form_cadastro.email.data)
+                print(new_user)
+                db.session.add(new_user)
+                db.session.commit()        
+                flash("Register Complete")
+        else:
+            if test_password == True:
+                flash("The password aren't equals")
+            else:
+                flash("Other peson use the same username")
     return render_template('cadastro.html',form_cadastro = form_cadastro)
 
 @app.route('/logout')
