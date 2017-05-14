@@ -2,6 +2,7 @@ from app import app,db,login_manager
 from flask import render_template,flash,redirect,url_for
 from flask_login import login_user,logout_user
 from app.models.forms import LoginForm
+from app.models.cadastro import CadastroForm
 from app.models.tables import User
 
 @login_manager.user_loader
@@ -15,7 +16,7 @@ def index():
 
 @app.route("/login",methods=['GET','POST'])
 def login():
-    form = LoginForm()  
+    form = LoginForm()
     if form.validate_on_submit():
         user_exist = User.query.filter_by(username=form.username.data).first()
         if user_exist and user_exist.password == form.password.data:
@@ -25,6 +26,11 @@ def login():
         else:
             flash('Invalid Login')
     return render_template('login.html',form = form)
+
+@app.route("/cadastro",methods=['GET','POST'])
+def cadastro():
+    form_cadastro = CadastroForm()
+    return render_template('cadastro.html',form_cadastro = form_cadastro)
 
 @app.route('/logout')
 def logout():

@@ -57,4 +57,3 @@ class Follow(db.Model):
 
     user  = db.relationship('User',foreign_keys=id_user)
     follow = db.relationship('User',foreign_keys=id_follower)
-
