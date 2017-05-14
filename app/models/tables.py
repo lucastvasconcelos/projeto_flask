@@ -8,6 +8,21 @@ class User(db.Model):
     name = db.Column(db.String)
     email = db.Column(db.String, unique = True)
 
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
     def __init__(self,username,password,name,email):
         self.username = username
         self.password = password
@@ -15,14 +30,14 @@ class User(db.Model):
         self.email = email
 
     def __repr__(self):
-        return '<id: %s>'%id
+        return '<User: %s>'%self.username
 
 class Post(db.Model):
     __tablename__ = 'post'
 
     id  = db.Column(db.Integer, primary_key= True)
     content = db.Column(db.Text)
-    id_user = db.Column(db.Intenger,db.ForeignKey('user.id'))
+    id_user = db.Column(db.Integer,db.ForeignKey('users.id'))
 
     user = db.relationship('User', foreign_keys = id_user)
 
@@ -31,14 +46,14 @@ class Post(db.Model):
         self.id_user = id_user
 
     def __repr__(self):
-        return '<Post %r>' %self.id
+        return '<Post %r>' %self.id_user.username
 
 class Follow(db.Model):
     __tablename__ = 'follow'
 
     id = db.Column(db.Integer,primary_key=True)
     id_user = db.Column(db.Integer,db.ForeignKey('users.id'))
-    id_follower = db.Column(db.Intener,db.ForeignKey('users.id'))
+    id_follower = db.Column(db.Integer,db.ForeignKey('users.id'))
 
     user  = db.relationship('User',foreign_keys=id_user)
     follow = db.relationship('User',foreign_keys=id_follower)

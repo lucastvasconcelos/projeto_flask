@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title> IFCE NEWS</title>
+    <title> Cachorrando </title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static',filename="css/bootstrap.min.css")}}" rel="stylesheet">
@@ -25,17 +25,32 @@
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="#">Home</a></li>
             <li role="presentation"><a href="#">About</a></li>
+            {% if current_user.is_authenticated %}
+              <li role="presentation"><a href="{{url_for('logout')}}">Logout</a></li>
+            {% else %}
+               <li role="presentation"><a href="{{url_for('login')}}">Login</a></li>
+            {% endif %}
             <li role="presentation"><a href="#">Contact</a></li>
           </ul>
         </nav>
-        <h3 class="text-muted">Project name</h3>
+        <h3 class="text-muted">Cachorrando</h3>
       </div>
+
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="alert alert-warning">
+                  <ul class=flashes>
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                  </ul>
+              </div>
+              {% endif %}
+          {% endwith %}
+      
 
         {% block content %}
         {% endblock %}
-      <footer class="footer">
-        <p>&copy; 2016 Company, Inc.</p>
-      </footer>
 
     </div> <!-- /container -->
 
